@@ -458,3 +458,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Toggle visibility of official announcement graphic
+window.toggleAnnouncementImage = function() {
+    const container = document.getElementById('announcement-img-container');
+    const btn = document.getElementById('view-announcement-btn');
+    container.classList.toggle('expanded');
+    if (container.classList.contains('expanded')) {
+        btn.innerHTML = '<i class="fa-solid fa-image-slash"></i> Hide Official Graphic';
+    } else {
+        btn.innerHTML = '<i class="fa-solid fa-image"></i> View Official Graphic';
+    }
+};
+
