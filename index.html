@@ -121,16 +121,6 @@
                             </div>
                             <button class="focus-btn" onclick="focusOnFeature(517)" title="Zoom to lineament"><i class="fa-solid fa-crosshairs"></i></button>
                         </div>
-
-                        <div class="prox-card" id="card-named-fault">
-                            <div class="prox-icon"><i class="fa-solid fa-bezier-curve"></i></div>
-                            <div class="prox-info">
-                                <span class="prox-label">Nearest Named Fault</span>
-                                <div class="prox-value" id="near-named-val">488.7 km</div>
-                                <span class="prox-sub" id="near-named-sub">Mong Hpyak Fault</span>
-                            </div>
-                            <button class="focus-btn" onclick="focusOnFeature('mong-hpyak')" title="Zoom to fault"><i class="fa-solid fa-crosshairs"></i></button>
-                        </div>
                     </div>
 
                     <div class="seismic-risk-note">
@@ -194,14 +184,6 @@
                     </div>
                 </section>
 
-                <!-- Section 4: Named Fault Explorer -->
-                <section class="panel-section fault-explorer">
-                    <h4 class="section-heading"><i class="fa-solid fa-folder-open"></i> Fault Registry</h4>
-                    <p class="section-intro">Zoom to major named faults in Myanmar's tectonic network:</p>
-                    <div class="fault-list" id="fault-list-container">
-                        <!-- Populated by JavaScript -->
-                    </div>
-                </section>
             </div>
 
             <!-- Sidebar Footer -->
@@ -231,16 +213,8 @@
                         <span class="legend-label">M3.5 Epicenter (July 4, 2026)</span>
                     </div>
                     <div class="legend-item">
-                        <span class="legend-color line-active-sinistral"></span>
-                        <span class="legend-label">Active Sinistral Fault</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color line-named-fault"></span>
-                        <span class="legend-label">Named Fault Line</span>
-                    </div>
-                    <div class="legend-item">
                         <span class="legend-color line-lineament"></span>
-                        <span class="legend-label">Tectonic Lineament / Unnamed Fault</span>
+                        <span class="legend-label">Tectonic Lineament / Fault Line</span>
                     </div>
                     <div class="legend-item">
                         <span class="legend-color line-buffer"></span>

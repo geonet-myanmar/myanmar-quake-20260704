@@ -19,11 +19,10 @@ Alternatively, you can just download the files and double-click **`index.html`**
 
 *   **Pulsing Epicenter Core**: A custom-animated CSS marker centered at `16.98° N, 96.01° E` (Htantabin, Yangon Region).
 *   **Distance Decay Buffers**: Toggleable impact circles showing the **10 km**, **25 km**, and **50 km** radii around the epicenter.
-*   **Tectonic fault Web**: Visualizes all fault structures from the 2011 Myanmar Tectonic Map. Active strike-slip faults are highlighted in glowing coral, named faults in cyan, and unnamed structures in translucent blue.
+*   **Tectonic Lineaments Web**: Visualizes the complete tectonic lineament and fault mapping from the 2011 dataset in a uniform, high-contrast amber styling.
 *   **Proximity & Spatial Querying**: 
-    *   Finds the nearest fault lines to the epicenter dynamically using the **Haversine formula**.
-    *   Clicking any fault segment displays its ID, segment boundary, classification, and proximity to the epicenter in a floating information card.
-*   **Fault Registry Search**: A sidebar index of all named fault zones in Myanmar (e.g., Momeik, Shweli, Kyaukkyan, Nam Ma). Clicking a registry row pans and zooms the map to fit that fault segment.
+    *   Finds the nearest tectonic lineament to the epicenter dynamically using the **Haversine formula**.
+    *   Clicking any lineament segment displays its ID, segment boundary, classification description (where available), and calculated proximity to the epicenter in a floating information card.
 *   **Basemap Styles**: Switch on-the-fly between **Dark Matter** (best contrast), **Satellite Imagery**, and **Light Carto** maps.
 *   **Collapsible Official Source**: Expand and view the original announcement graphic from the Department of Meteorology and Hydrology (DMH) inside the event card.
 
@@ -35,7 +34,6 @@ Alternatively, you can just download the files and double-click **`index.html`**
 | :--- | :--- | :--- |
 | **Epicenter Coordinates** | `16.98° N, 96.01° E` | Approx. 3 miles S-SE of Htantabin, Yangon. |
 | **Nearest Lineament** | **9.43 km** | Index Feature `#517` (a major N-S shear structure passing Yangon). |
-| **Nearest Named Fault** | **488.70 km** | **Mong Hpyak Fault** (Eastern Shan State). |
 
 *Note: The epicenter is situated in the Ayeyarwady Deltaic Basin, which lies directly in the active tectonic shadow zone of the **Sagaing Fault** system (Bago segment).*
 
@@ -45,7 +43,7 @@ Alternatively, you can just download the files and double-click **`index.html`**
 
 *   `index.html` - Main HTML layout with sidebar dashboard, layers control, and modal templates.
 *   `style.css` - Custom styles featuring dark mode theme, glassmorphism, responsive styles, and custom map icons.
-*   `app.js` - Map controller, Leaflet bindings, Haversine computations, and sidebar registry actions.
+*   `app.js` - Map controller, Leaflet bindings, and Haversine computations.
 *   `tectonic-data.js` - Contains the GeoJSON payload pre-wrapped into a JavaScript module. This permits local offline execution (`file:///`) and avoids CORS fetch blockages.
 *   `quake_info.jpg` - Original DMH seismology divisional announcement image.
 *   `server.js` - A tiny, zero-dependency Node.js HTTP server.

@@ -77,7 +77,6 @@ function getDistanceToPolyline(lat, lon, feature) {
 // Find closest tectonic feature
 function findNearestTectonicFeatures() {
     let closestLineament = { distance: Infinity, feature: null, index: -1 };
-    let closestNamed = { distance: Infinity, feature: null, index: -1 };
     
     tectonicData.features.forEach((feat, idx) => {
         const { distance, point } = getDistanceToPolyline(EPICENTER_LAT, EPICENTER_LON, feat);
@@ -86,14 +85,9 @@ function findNearestTectonicFeatures() {
         if (distance < closestLineament.distance) {
             closestLineament = { distance, feature: feat, index: idx, point };
         }
-        
-        // Nearest named fault
-        if (feat.properties.NAME && distance < closestNamed.distance) {
-            closestNamed = { distance, feature: feat, index: idx, point };
-        }
     });
     
-    return { closestLineament, closestNamed };
+    return { closestLineament };
 }
 
 // --- Map Overlays & Styling ---
@@ -163,35 +157,13 @@ const bufferCircles = L.featureGroup([
 
 // Styling configurations for Tectonic Lineaments
 function getFeatureStyle(feature) {
-    const isNamed = !!feature.properties.NAME;
-    const type = feature.properties.TYPE_DESCR || "";
-    const isActive = type.toLowerCase().includes("active");
-    
-    if (isActive) {
-        return {
-            color: '#ff3838',
-            weight: 3.2,
-            opacity: 0.85,
-            lineCap: 'round',
-            lineJoin: 'round'
-        };
-    } else if (isNamed) {
-        return {
-            color: '#00d2d3',
-            weight: 2.5,
-            opacity: 0.8,
-            lineCap: 'round',
-            lineJoin: 'round'
-        };
-    } else {
-        return {
-            color: '#54a0ff',
-            weight: 1.6,
-            opacity: 0.35,
-            lineCap: 'round',
-            lineJoin: 'round'
-        };
-    }
+    return {
+        color: '#ff9f43', // Uniform glowing amber fault lines
+        weight: 2.0,
+        opacity: 0.6,
+        lineCap: 'round',
+        lineJoin: 'round'
+    };
 }
 
 // Global active highlighted layer reference
@@ -339,7 +311,7 @@ window.focusOnFeature = function(identifier) {
 // --- Page Initialization and Dynamic Data Loading ---
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Run Proximity Analysis
-    const { closestLineament, closestNamed } = findNearestTectonicFeatures();
+    const { closestLineament } = findNearestTectonicFeatures();
     
     // Update Sidebar Proximity Panel
     if (closestLineament.feature) {
@@ -349,49 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const cardLineament = document.getElementById('card-nearest-fault');
         cardLineament.querySelector('.focus-btn').setAttribute('onclick', `focusOnFeature(${closestLineament.index})`);
     }
-    
-    if (closestNamed.feature) {
-        document.getElementById('near-named-val').innerText = `${closestNamed.distance.toFixed(2)} km`;
-        document.getElementById('near-named-sub').innerText = closestNamed.feature.properties.NAME;
-        
-        // Format a key for named fault focus
-        const key = closestNamed.feature.properties.NAME.toLowerCase().replace(/\s+/g, '-');
-        const cardNamed = document.getElementById('card-named-fault');
-        cardNamed.querySelector('.focus-btn').setAttribute('onclick', `focusOnFeature('${key}')`);
-    }
-
-    // 2. Populate Named Fault Registry List in Sidebar
-    const faultRegistryContainer = document.getElementById('fault-list-container');
-    const namedFeatures = tectonicData.features
-        .map((feat, idx) => ({ feat, idx }))
-        .filter(item => item.feat.properties.NAME)
-        .sort((a, b) => a.feat.properties.NAME.localeCompare(b.feat.properties.NAME));
-
-    namedFeatures.forEach(item => {
-        const props = item.feat.properties;
-        const name = props.NAME;
-        const segment = props.SEGMENT || "General Segment";
-        const type = props.TYPE_DESCR || "Fault Line";
-        const isHighlyActive = type.toLowerCase().includes("active");
-        
-        const key = name.toLowerCase().replace(/\s+/g, '-');
-        
-        const row = document.createElement('div');
-        row.className = 'fault-row';
-        row.setAttribute('onclick', `focusOnFeature('${key}')`);
-        
-        row.innerHTML = `
-            <div class="fault-name-wrap">
-                <span class="fault-name">${name}</span>
-                <span class="fault-seg">${segment}</span>
-            </div>
-            <span class="fault-tag ${isHighlyActive ? 'tag-active-sinistral' : 'tag-fault'}">
-                ${isHighlyActive ? 'Active' : 'Fault'}
-            </span>
-        `;
-        
-        faultRegistryContainer.appendChild(row);
-    });
 
     // 3. Setup Basemap switching
     const basemapButtons = document.querySelectorAll('.basemap-btn');
